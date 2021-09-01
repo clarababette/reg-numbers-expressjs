@@ -14,7 +14,9 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:543
 
 const pool = new Pool({
   connectionString,
-  ssl: false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 pool.connect();
