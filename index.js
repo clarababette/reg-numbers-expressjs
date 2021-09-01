@@ -14,9 +14,7 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:543
 
 const pool = new Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: false,
 });
 
 pool.connect();
@@ -45,7 +43,9 @@ app.use(flash());
 app.get('/', routes.landing);
 app.post('/add', routes.newRegistration);
 app.post('/filter', routes.filter);
-
+app.post('/reset-filter', (req, res) => {
+  res.redirect('/');
+});
 
 const PORT = process.env.PORT || 3013;
 app.listen(PORT, () => {

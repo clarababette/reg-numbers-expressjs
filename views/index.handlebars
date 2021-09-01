@@ -7,7 +7,7 @@
 </form>
 <form action="/filter" method="POST">
 
-      <input class="reset_btn" id="reset_btnHB" type="button" value="Reset" />
+     
           <p>Filter by town:</p>
       <div class="filter" id="filterHB">
               {{#each town}}
@@ -16,11 +16,13 @@
               {{/each}}
       </div>
       <input type="submit" value="Filter" />
-      <input class="clear_filter_btn" id="clear_filter_btnHB" type="button" value="Clear filter" />
+      <input class="clear_filter_btn" type="submit" formaction="/reset-filter" value="Clear filter" />
+<p>{{filterTowns}}</p>
 </form>
       <ul class="reg_display_list" id="reg_display_listHB">
           {{#each regNum}}
               <li>{{this}}</li>
           {{/each}}
       </ul>
+       <input type="button" value="Reset" />
 </div>

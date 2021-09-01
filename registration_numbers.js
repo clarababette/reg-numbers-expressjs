@@ -59,6 +59,7 @@ export default function registrationRoutes(registrationService) {
     });
     res.render('index', {
       regNum: formatNumbers(matches),
+      filterTowns: `Vehicles registered in ${selected.toString()}`,
     });
   }
 
