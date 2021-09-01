@@ -25,7 +25,7 @@ body {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 .container {
   margin: clamp(calc(0.025 * 320px), 2.5vw, calc(0.025 * 425px));
@@ -99,13 +99,17 @@ input[type="text"] {
   grid-row: 5 / span 1;
 }
 
+form {
+  grid-column: span 3;
+}
+
 ul {
   margin: 0;
   padding: 0;
   grid-column: span 3;
   list-style: none;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   justify-content: space-between;
   justify-items: center;
   width: inherit;
@@ -230,7 +234,7 @@ li {
   ul {
     margin: 0;
     padding: 0;
-    grid-column: 2 / span 1;
+    grid-column: span 3;
     grid-row: 3 / span 6;
     list-style: none;
     display: grid;

@@ -1,20 +1,26 @@
 <h1>Western Cape Registration Numbers</h1>
-      <input type="text" class="reg_input" id="reg_inputHB" placeholder="eg. CA 797 920" />
+<div class="container">
+<form action="/add" method="POST">
+      <input name="regInput" type="text" class="reg_input" id="reg_inputHB" placeholder="eg. CA 797 920" />
       <span class="confirmation" id="confirmationHB">Enter a registration number.</span>
-      <input class="add_btn" id="add_btnHB" type="button" value="Add" />
+      <input class="add_btn" id="add_btnHB" type="submit" value="Add" />
+</form>
+<form action="/filter" method="POST">
+
       <input class="reset_btn" id="reset_btnHB" type="button" value="Reset" />
-      <input class="clear_filter_btn" id="clear_filter_btnHB" type="button" value="Clear filter" />
+          <p>Filter by town:</p>
       <div class="filter" id="filterHB">
-          Filter by town:
-          <select class="town" id="townHB">
-              <option value="">Choose a town</option>
               {{#each town}}
-              <option value={{@key}}>{{this}}</option>
+              <input type="checkbox" name="{{this}}" value="{{this}}">
+              <label for="{{this}}">{{this}}</label><br>
               {{/each}}
-          </select>
       </div>
+      <input type="submit" value="Filter" />
+      <input class="clear_filter_btn" id="clear_filter_btnHB" type="button" value="Clear filter" />
+</form>
       <ul class="reg_display_list" id="reg_display_listHB">
           {{#each regNum}}
               <li>{{this}}</li>
           {{/each}}
       </ul>
+</div>
