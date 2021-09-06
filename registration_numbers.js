@@ -27,9 +27,14 @@ export default function registrationRoutes(registrationService) {
     const codes = await registrationService.getCodes();
     const nums = await registrationService.getNumbers();
     const pattern = /^[A-Z]{2,3}\d{6}$/;
+    const code = input.slice(0, input.length - 6);
     try {
-      if (!pattern.test(input) || !codes.includes(input.slice(0, input.length - 6))) throw 'Invalid registration number.';
-      if (nums.includes(input)) throw 'Registration number already captured.';
+      if (!pattern.test(input) || !codes.includes(code)) {
+        throw new Error('Invalid registration number.');
+      }
+      if (nums.includes(input)) {
+        throw new Error('Registration number already captured.');
+      }
       return true;
     } catch (err) {
       return err;
@@ -63,10 +68,15 @@ export default function registrationRoutes(registrationService) {
     });
   }
 
+  async function clearData(req, res) {
+    await registrationService.deleteAll();
+    res.redirect('/');
+  }
 
   return {
     landing,
     newRegistration,
     filter,
+    clearData,
   };
 }

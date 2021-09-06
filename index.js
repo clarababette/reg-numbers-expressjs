@@ -12,12 +12,21 @@ const Pool = pg.Pool;
 
 const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:5432/registration_database';
 
-const pool = new Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+const pool = (() => {
+  if (process.env.NODE_ENV !== 'production') {
+    return new Pool({
+      connectionString: connectionString,
+      ssl: false,
+    });
+  } else {
+    return new Pool({
+      connectionString: connectionString,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
+  }
+})();
 
 pool.connect();
 
@@ -48,15 +57,10 @@ app.post('/filter', routes.filter);
 app.post('/reset-filter', (req, res) => {
   res.redirect('/');
 });
+app.post('/clearData', routes.clearData);
 
 const PORT = process.env.PORT || 3013;
 app.listen(PORT, () => {
   console.log(`App starting on port ${PORT}`);
 });
 
-// async function test(func) {
-//   const result = await pool.query('SELECT * FROM registration_numbers');
-//   console.log(result.rows);
-//   console.log(await func);
-// }
-// test(service.getNumbers());

@@ -31,11 +31,16 @@ export default function registrationService(pool) {
     return results.rows;
   }
 
+  async function deleteAll() {
+    await pool.query('DELETE FROM registration_numbers');
+  }
+
   return {
     getNumbers,
     everyTown,
     addNumber,
     getCodes,
     getTownsForNumbers,
+    deleteAll,
   };
 }
