@@ -7,7 +7,7 @@ env:
 
 before_script:
   - psql -c 'create database  registration_tests;' -U postgres
-  - psql -U postgres -d registration_tests -a -f database.sql
+  - psql -U postgres -d registration_tests -a -f reg-numbersDB.sql
 
 services:
   - postgresql
