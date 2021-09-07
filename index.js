@@ -58,6 +58,14 @@ app.post('/reset-filter', (req, res) => {
   res.redirect('/');
 });
 app.post('/clearData', routes.clearData);
+app.get('/map', (req, res) => {
+  res.render('map');
+});
+app.get('/reg_numbers', (req, res) => {
+  res.redirect('/');
+});
+app.get('/reg_numbers/:reg_num', routes.thisRegNum);
+app.post('/add/:add_num', routes.addThis);
 
 const PORT = process.env.PORT || 3013;
 app.listen(PORT, () => {

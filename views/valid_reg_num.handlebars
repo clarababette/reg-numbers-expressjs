@@ -1,0 +1,8 @@
+
+  <div class="this-num">{{regNum}}</div>
+  <span class="this-town">This vehicle is registered in {{town}}.</span>
+  {{#if new}}
+  <form class="add-this" action='/add/{{regNum}}' method='POST'>
+     <input class='add_btn' type='submit' value='Add to list' />
+  </form>
+  {{/if}}

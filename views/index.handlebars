@@ -1,45 +1,54 @@
-<h1>Western Cape Registration Numbers</h1>
 
 
-    
-    <form class='filter' action="/filter" method="POST">
-    <input type="submit" value="Clear data" formaction="/clearData" />
-        <span>Filter by town:</span>
-            {{#each town}}
-            <input type="checkbox" name="{{this}}" value="{{this}} ">
-            <label for="{{this}}">{{this}}</label><br>
-            {{/each}}
-        <input type="submit" value="Filter" />
-        <input class="clear_filter_btn" type="submit" formaction="/reset-filter"
-            value="Clear filter" />
-       
-    </form>
-   
+{{#if regNum}}
+<form class='filter' action='/filter' method='POST'>
+  <span>Filter by town:</span>
+  {{#each town}}
+    <input type='checkbox' name='{{this}}' value='{{this}} ' {{this}} />
+    <label for='{{this}}'>{{this}}</label><br />
+  {{/each}}
+  <input type='submit' value='Filter' />
+  {{#if filterTowns}}
+  <input class='clear_filter_btn' type='submit' formaction='/reset-filter' value='Clear filter' />
+  {{/if}}
+  <input type='submit' value='Clear data' formaction='/clearData' />
 
-<div class="numbers">
-    <form class='add' action="/add" method="POST">
-        
-        <span>Enter a registration number.</span>
-        <input name="regInput" type="text" class="reg_input" id="reg_inputHB"
-            placeholder="eg. CA 797 920" />
-        <input class="add_btn" id="add_btnHB" type="submit" value="Add" />
-    </form>
-     <h4>{{filterTowns}}</h4>
- <ul class="reg_display_list" id="reg_display_listHB">
-        {{#each regNum}}
-        <li>{{this}}</li>
-        {{/each}}
-    </ul>
+</form>
+{{/if}}
+<div class='numbers'>
+  <form class='add' action='/add' method='POST'>
+
+    <span class="enter">Enter a registration number.</span>
+    {{#if messages.error}} 
+    <span class="error">{{messages.error}}</span>
+     {{/if}}
+    <input
+      name='regInput'
+      type='text'
+      class='reg_input'
+      id='reg_inputHB'
+      placeholder='eg. CA 797 920'
+    />
+    <input class='add_btn' id='add_btnHB' type='submit' value='Add' />
+  </form>
+  <h4>{{filterTowns}}</h4>
+  <ul class='reg_display_list' id='reg_display_listHB'>
+    {{#each regNum}}
+      <li>{{this}}</li>
+    {{/each}}
+  </ul>
 </div>
-<div class="info">
-    <p>Since 1994 the Western Cape and KwaZulu-Natal are the only two South
-        African provinces to have vehicle registration numbers that are linked
-        to specific towns and cities.</p>
-    <p>All Western Cape registration numbers start with a C. This is because the
-        system is based on the old Cape Province licensing system. In 1994 the
-        Cape Province was subdivided into the Western, Eastern and Northern Cape
-        provinces. While the Western Cape chose to keep using prefixes, the
-        Eastern Cape and Northern Cape provinces now use the suffixes EC and NC.
-    </p>
-    <img src="Western_Cape_license_marks_map.svg">
+<div class='info'>
+  <p>Since 1994 the Western Cape and KwaZulu-Natal are the only two South
+    African provinces to have vehicle registration numbers that are linked to
+    specific towns and cities.</p>
+  <p>All Western Cape registration numbers start with a C. This is because the
+    system is based on the old Cape Province licensing system. In 1994 the Cape
+    Province was subdivided into the Western, Eastern and Northern Cape
+    provinces. While the Western Cape chose to keep using prefixes, the Eastern
+    Cape and Northern Cape provinces now use the suffixes EC and NC.
+  </p>
+  <a href="/map">
+  <img src='Western_Cape_license_marks_map.svg' />
+  </a>
 </div>

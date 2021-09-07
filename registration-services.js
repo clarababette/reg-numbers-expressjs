@@ -35,6 +35,11 @@ export default function registrationService(pool) {
     await pool.query('DELETE FROM registration_numbers');
   }
 
+  async function getCodesWithTowns() {
+    const results = await pool.query('SELECT * FROM towns');
+    return results.rows;
+  }
+
   return {
     getNumbers,
     everyTown,
@@ -42,5 +47,6 @@ export default function registrationService(pool) {
     getCodes,
     getTownsForNumbers,
     deleteAll,
+    getCodesWithTowns,
   };
 }

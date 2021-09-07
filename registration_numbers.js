@@ -3,9 +3,16 @@
 export default function registrationRoutes(registrationService) {
   function formatNumbers(nums) {
     return nums.map((num) => {
-      // eslint-disable-next-line max-len
-      return `${num.slice(0, num.length - 6)} ${num.slice(-6, -3)}-${num.slice(-3)}`;
+      return `${getPrefix(num)} ${getDigits(num)}`;
     });
+  }
+
+  function getPrefix(regNum) {
+    return regNum.slice(0, regNum.length - 6);
+  }
+
+  function getDigits(regNum) {
+    return `${regNum.slice(-6, -3)}-${regNum.slice(-3)}`;
   }
 
   async function theseTowns() {
@@ -17,6 +24,8 @@ export default function registrationRoutes(registrationService) {
   }
 
   async function landing(req, res) {
+    const codes = await registrationService.getCodes();
+    console.log(codes.length);
     res.render('index', {
       regNum: formatNumbers(await registrationService.getNumbers()),
       town: await theseTowns(),
@@ -27,7 +36,7 @@ export default function registrationRoutes(registrationService) {
     const codes = await registrationService.getCodes();
     const nums = await registrationService.getNumbers();
     const pattern = /^[A-Z]{2,3}\d{6}$/;
-    const code = input.slice(0, input.length - 6);
+    const code = getPrefix(input);
     try {
       if (!pattern.test(input) || !codes.includes(code)) {
         throw new Error('Invalid registration number.');
@@ -37,7 +46,7 @@ export default function registrationRoutes(registrationService) {
       }
       return true;
     } catch (err) {
-      return err;
+      return err.message;
     }
   }
 
@@ -49,6 +58,7 @@ export default function registrationRoutes(registrationService) {
       await registrationService.addNumber(input);
       res.redirect('/');
     } else {
+      req.flash('error', validation);
       res.redirect('/');
     }
   }
@@ -64,7 +74,8 @@ export default function registrationRoutes(registrationService) {
     });
     res.render('index', {
       regNum: formatNumbers(matches),
-      filterTowns: `Vehicles registered in ${selected.toString()}`,
+      filterTowns: `Vehicles registered in ${selected.join(', ')}`,
+      town: await theseTowns(),
     });
   }
 
@@ -73,10 +84,50 @@ export default function registrationRoutes(registrationService) {
     res.redirect('/');
   }
 
+  async function thisRegNum(req, res) {
+    let input = req.params.reg_num;
+    input = input.toUpperCase().replace(' ', '').replace('-', '');
+    const validation = await validateInput(input);
+    // eslint-disable-next-line max-len
+    if (validation == true || validation == 'Registration number already captured.') {
+      const codes = await registrationService.getCodesWithTowns();
+      const thisCode = getPrefix(input);
+      let thisTown = '';
+      let isNew = undefined;
+      codes.forEach((row) => {
+        if (row.code == thisCode) {
+          thisTown = row.town;
+        }
+      });
+      if (validation == true) {
+        isNew = true;
+      }
+      res.render('valid_reg_num', {
+        regNum: formatNumbers([input]),
+        town: thisTown,
+        new: isNew,
+      });
+    } else {
+      res.render('invalid_reg_num', {
+        input: input,
+      });
+    }
+  }
+
+  async function addThis(req, res) {
+    let input = req.params.add_num;
+    input = input.toUpperCase().replace(' ', '').replace('-', '');
+
+    await registrationService.addNumber(input);
+    res.redirect('/');
+  }
+
   return {
     landing,
     newRegistration,
     filter,
     clearData,
+    thisRegNum,
+    addThis,
   };
 }
