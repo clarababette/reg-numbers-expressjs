@@ -52,8 +52,8 @@ app.use(
 app.use(flash());
 
 app.get('/', routes.landing);
-app.post('/add', routes.newRegistration);
-app.post('/filter', routes.filter);
+app.post('/add', routes.addRoute);
+app.post('/filter', routes.filterRoute);
 app.post('/reset-filter', (req, res) => {
   res.redirect('/');
 });
@@ -65,7 +65,7 @@ app.get('/reg_numbers', (req, res) => {
   res.redirect('/');
 });
 app.get('/reg_numbers/:reg_num', routes.thisRegNum);
-app.post('/add/:add_num', routes.addThis);
+app.post('/add/:add_num', routes.addRoute);
 
 const PORT = process.env.PORT || 3013;
 app.listen(PORT, () => {

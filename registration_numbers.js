@@ -22,16 +22,6 @@ export default function registrationRoutes(registrationService) {
     });
     return new Set(towns);
   }
-
-  async function landing(req, res) {
-    const codes = await registrationService.getCodes();
-    console.log(codes.length);
-    res.render('index', {
-      regNum: formatNumbers(await registrationService.getNumbers()),
-      town: await theseTowns(),
-    });
-  }
-
   async function validateInput(input) {
     const codes = await registrationService.getCodes();
     const nums = await registrationService.getNumbers();
@@ -50,30 +40,50 @@ export default function registrationRoutes(registrationService) {
     }
   }
 
-  async function newRegistration(req, res) {
-    let input = req.body.regInput;
+  async function addNumber(input) {
     input = input.toUpperCase().replace(' ', '').replace('-', '');
     const validation = await validateInput(input);
     if (validation == true) {
-      await registrationService.addNumber(input);
-      res.redirect('/');
+      await registrationService.insertNumber(input);
     } else {
-      req.flash('error', validation);
-      res.redirect('/');
+      return validation;
     }
   }
 
-  async function filter(req, res) {
-    const selected = Object.keys(req.body);
+  async function filter(towns) {
     const registrations = await registrationService.getTownsForNumbers();
     const matches = [];
     registrations.forEach((reg) => {
-      if (selected.includes(reg.town)) {
+      if (towns.includes(reg.town)) {
         matches.push(reg.reg_number);
       }
     });
+    return formatNumbers(matches);
+  }
+
+  // ROUTES
+  async function landing(req, res) {
     res.render('index', {
-      regNum: formatNumbers(matches),
+      regNum: formatNumbers(await registrationService.getNumbers()),
+      town: await theseTowns(),
+    });
+  }
+
+
+  async function addRoute(req, res) {
+    console.log(req.body.regInput);
+    console.log(req.params.add_num);
+    const input = req.body.regInput || req.params.add_num;
+    const result = await addNumber(input);
+    console.log(result);
+    req.flash('error', result );
+    res.redirect('/');
+  }
+
+  async function filterRoute(req, res) {
+    const selected = Object.keys(req.body);
+    res.render('index', {
+      regNum: await filter(selected),
       filterTowns: `Vehicles registered in ${selected.join(', ')}`,
       town: await theseTowns(),
     });
@@ -88,8 +98,11 @@ export default function registrationRoutes(registrationService) {
     let input = req.params.reg_num;
     input = input.toUpperCase().replace(' ', '').replace('-', '');
     const validation = await validateInput(input);
-    // eslint-disable-next-line max-len
-    if (validation == true || validation == 'Registration number already captured.') {
+    if (validation == 'Invalid registration number.') {
+      res.render('invalid_reg_num', {
+        input: input,
+      });
+    } else {
       const codes = await registrationService.getCodesWithTowns();
       const thisCode = getPrefix(input);
       let thisTown = '';
@@ -107,27 +120,15 @@ export default function registrationRoutes(registrationService) {
         town: thisTown,
         new: isNew,
       });
-    } else {
-      res.render('invalid_reg_num', {
-        input: input,
-      });
     }
   }
-
-  async function addThis(req, res) {
-    let input = req.params.add_num;
-    input = input.toUpperCase().replace(' ', '').replace('-', '');
-
-    await registrationService.addNumber(input);
-    res.redirect('/');
-  }
-
   return {
-    landing,
-    newRegistration,
+    addNumber,
     filter,
+    landing,
+    addRoute,
+    filterRoute,
     clearData,
     thisRegNum,
-    addThis,
   };
 }

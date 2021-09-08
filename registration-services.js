@@ -20,7 +20,7 @@ export default function registrationService(pool) {
     });
   }
 
-  async function addNumber(number) {
+  async function insertNumber(number) {
     await pool.query(
         'INSERT INTO registration_numbers (reg_number,code) VALUES($1, $2) ON CONFLICT(reg_number) DO NOTHING',
         [number, number.slice(0, number.length - 6)]);
@@ -43,7 +43,7 @@ export default function registrationService(pool) {
   return {
     getNumbers,
     everyTown,
-    addNumber,
+    insertNumber,
     getCodes,
     getTownsForNumbers,
     deleteAll,
