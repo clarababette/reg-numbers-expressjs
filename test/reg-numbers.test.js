@@ -64,6 +64,15 @@ describe('The Registration Numbers app', () => {
     const codes = ['CA', 'CF', 'CG', 'CJ', 'CK', 'CL', 'CN', 'CO', 'CR', 'CS', 'CT', 'CV', 'CW', 'CX', 'CY', 'CZ', 'CAA', 'CAM', 'CAR', 'CAW', 'CAG', 'CBL', 'CBM', 'CBR', 'CBS', 'CBT', 'CBY', 'CCA', 'CCC', 'CCD', 'CCK', 'CCM', 'CCO', 'CCP', 'CEA', 'CEG', 'CEM', 'CEO', 'CER', 'CES', 'CEX', 'CEY', 'CFA', 'CFG', 'CFM', 'CFP', 'CFR', 'CCT'];
     assert.deepStrictEqual(codes, await registration.getCodes());
   });
+  it('should return a list of all towns with their codes', async function() {
+    assert.deepStrictEqual();
+  });
+  it('should return a list of towns with registrations', async function() {
+    assert.deepStrictEqual();
+  });
+  it('should delte all registrations', async function() {
+    assert.deepStrictEqual();
+  });
 
 
   after(function() {
