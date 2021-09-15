@@ -19,7 +19,6 @@ export default function registrationService(pool) {
   }
 
   async function filterByTowns(towns) {
-    console.log(towns);
     const query = `SELECT reg_number FROM registration_numbers INNER JOIN towns ON registration_numbers.code = towns.code WHERE towns.town IN (${towns})`;
     const results = await pool.query(query);
     return results.rows;

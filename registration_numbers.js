@@ -47,13 +47,16 @@ export default function registrationRoutes(registrationService) {
 
   async function filterRoute(req, res) {
     const selected = Object.keys(req.body);
+    selected.forEach((town, index, selected) => {
+      selected[index] = town.replace(`'`, `''`);
+    });
     console.log(`'${selected.join(`','`)}'`);
     let result = `'${selected.join(`','`)}'`;
     result = await registrationService.filterByTowns(result);
     result = formatNumbers(result);
     res.render('index', {
       regNum: result,
-      filterTowns: `Vehicles registered in ${selected.join(', ')}`,
+      filterTowns: `Vehicles registered in ${Object.keys(req.body).join(', ')}`,
       town: theseTowns(await registrationService.getNumbersAndTowns()),
     });
   }
