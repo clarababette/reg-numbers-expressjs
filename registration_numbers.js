@@ -36,10 +36,7 @@ export default function registrationRoutes(registrationService) {
   }
 
   async function addRoute(req, res) {
-    let input = req.body.regInput || req.params.add_num;
-    if (input) {
-      input = input.toUpperCase().replace(' ', '').replace('-', '');
-    }
+    const input = req.body.regInput || req.params.add_num;
     const result = await registrationService.insertNumber(input);
     req.flash('error', errorMessages[result] );
     res.redirect('/');
@@ -50,7 +47,6 @@ export default function registrationRoutes(registrationService) {
     selected.forEach((town, index, selected) => {
       selected[index] = town.replace(`'`, `''`);
     });
-    console.log(`'${selected.join(`','`)}'`);
     let result = `'${selected.join(`','`)}'`;
     result = await registrationService.filterByTowns(result);
     result = formatNumbers(result);
@@ -67,9 +63,8 @@ export default function registrationRoutes(registrationService) {
   }
 
   async function thisRegNum(req, res) {
-    let input = req.params.reg_num;
-    input = input.toUpperCase().replace(' ', '').replace('-', '');
-    const town = await registrationService.getThisTown(getPrefix(input), input);
+    const input = req.params.reg_num;
+    const town = await registrationService.getThisTown(input);
     if (town === undefined) {
       res.render('invalid_reg_num', {
         input: input,
