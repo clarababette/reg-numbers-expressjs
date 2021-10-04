@@ -65,7 +65,8 @@ export default function registrationRoutes(registrationService) {
   }
 
   async function thisRegNum(req, res) {
-    const input = req.params.reg_num;
+    let input = req.params.reg_num;
+    input = input.toUpperCase().replace(/\s/g, '').replace(/-/g, '');
     const town = await registrationService.getThisTown(input);
     if (town === undefined) {
       res.render('invalid_reg_num', {

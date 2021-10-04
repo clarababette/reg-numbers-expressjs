@@ -41,6 +41,7 @@ export default function registrationService(pool) {
   }
 
   async function hasNotBeenCaptured(number) {
+    number = formatNumber(number);
     const results = await pool.query('SELECT reg_number FROM registration_numbers WHERE reg_number = $1', [number]);
     if (results.rows[0] === undefined) {
       return true;
