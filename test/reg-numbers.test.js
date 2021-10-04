@@ -14,7 +14,7 @@ const registration = registrationService(pool);
 
 describe('The Registration Numbers app', () => {
   beforeEach(async function() {
-    await pool.query('delete from registration_numbers;');
+    // await pool.query('delete from registration_numbers;');
   });
 
   it('should add valid registrations.',
