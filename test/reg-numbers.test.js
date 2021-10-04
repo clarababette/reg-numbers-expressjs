@@ -77,7 +77,7 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CEO044975');
         await registration.insertNumber('CAG579382');
         await registration.insertNumber('CFP625000');
-        const expected = [][]
+        const expected = [];
         const result = await registration.getNumbersAndTowns();
         assert.deepStrictEqual(result, expected);
       });
