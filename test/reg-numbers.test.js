@@ -60,34 +60,68 @@ describe('The Registration Numbers app', () => {
         const result = await registration.insertNumber('spider');
         assert.strictEqual( result, '23514');
       });
-  // it('should not add blank registration inputs.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should generate the town code based on the registration.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should return a list of all registration numbers with their towns.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should return a list registration numbers for selected towns.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should check whether or not a registration number has been captured.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should return the matching town for a reg number without capturing it.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
-  // it('should delete all registration numbers.',
-  //     async () => {
-  //       assert.deepStrictEqual();
-  //     });
+  it('should not add blank registration inputs.',
+      async () => {
+        const result = await registration.insertNumber();
+        assert.strictEqual( result, '23502');
+      });
+  it('should return a list of all registration numbers with their towns.',
+      async () => {
+        await registration.insertNumber('CFP389327');
+        await registration.insertNumber('CBS392555');
+        await registration.insertNumber('CEY190150');
+        await registration.insertNumber('CL303370');
+        await registration.insertNumber('CCT265279');
+        await registration.insertNumber('CG694285');
+        await registration.insertNumber('CER995635');
+        await registration.insertNumber('CEO044975');
+        await registration.insertNumber('CAG579382');
+        await registration.insertNumber('CFP625000');
+        const expected = [{reg_number: 'CA349535', town: 'Cape Town'},
+          {reg_number: 'CJ328895', town: 'Paarl'}];
+        const result = await registration.getNumbersAndTowns();
+        assert.deepStrictEqual(result, expected);
+      });
+  it('should return a list registration numbers for selected towns.',
+      async () => {
+        await registration.insertNumber('CFP389327');
+        await registration.insertNumber('CBS392555');
+        await registration.insertNumber('CEY190150');
+        await registration.insertNumber('CL303370');
+        await registration.insertNumber('CA265279');
+        await registration.insertNumber('CG694285');
+        await registration.insertNumber('CER995635');
+        await registration.insertNumber('CEO044975');
+        await registration.insertNumber('CAW579382');
+        await registration.insertNumber('CFP625000');
+        const expected = [{reg_number: 'CA349535', town: 'Cape Town'},
+          {reg_number: 'CJ328895', town: 'Paarl'}];
+        const result = await registration.filterByTowns('Cape Town,George');
+        assert.deepStrictEqual(result, expected);
+      });
+  it('should check whether or not a registration number has been captured.',
+      async () => {
+        assert.strictEqual(await registration.hasNotBeenCaptured('CFP349623'), true);
+      });
+  it('should return the matching town for a reg number without capturing it.',
+      async () => {
+        assert.strictEqual(await registration.getThisTown('CCC506343'), '');
+      });
+  it('should delete all registration numbers.',
+      async () => {
+        await registration.insertNumber('CEG087867');
+        await registration.insertNumber('CEM976829');
+        await registration.insertNumber('CBT860473');
+        await registration.insertNumber('CW962125');
+        await registration.insertNumber('CER227757');
+        await registration.insertNumber('CEG831108');
+        await registration.insertNumber('CAW942697');
+        await registration.insertNumber('CBT834347');
+        await registration.insertNumber('CFG750495');
+        await registration.insertNumber('CY462015');
+        await registration.deleteAll();
+        assert.deepStrictEqual(await registration.getNumbersAndTowns(), []);
+      });
 
   after(function() {
     pool.end();
