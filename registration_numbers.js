@@ -16,7 +16,7 @@ export default function registrationRoutes(registrationService) {
   }
 
   function getPrefix(regNum) {
-    return regNum.slice(0, regNum.length - 6);
+    return regNum.slice(0, regNum.length - 6).toUpperCase();
   }
 
   function getDigits(regNum) {
