@@ -37,7 +37,9 @@ export default function registrationService(pool) {
     number = formatNumber(number);
     const code = getPrefix(number);
     const results = await pool.query(`SELECT town FROM towns where code = $1 AND $2 ~ '^C[A-Z]{1,2}[0-9]{6}'`, [code, number]);
-    return results.rows[0].town;
+    if (results.rows[0]) {
+      return results.rows[0].town;
+    }
   }
 
   async function hasNotBeenCaptured(number) {
