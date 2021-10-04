@@ -77,7 +77,48 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CEO044975');
         await registration.insertNumber('CAG579382');
         await registration.insertNumber('CFP625000');
-        const expected = [];
+        const expected = [
+          {
+            reg_number: 'CFP389327',
+            town: 'Velddrif & Laaiplek',
+          },
+          {
+            reg_number: 'CBS392555',
+            town: 'Mossel Bay & Hartenbos',
+          },
+          {
+            reg_number: 'CEY190150',
+            town: 'Strand & Gordon\'s Bay',
+          },
+          {
+            reg_number: 'CL303370',
+            town: 'Stellenbosch & Franschhoek',
+          },
+          {
+            reg_number: 'CCT265279',
+            town: 'Cape Town municipal vehicles',
+          },
+          {
+            reg_number: 'CG694285',
+            town: 'Oudtshoorn',
+          },
+          {
+            reg_number: 'CER995635',
+            town: 'Bonnievale',
+          },
+          {
+            reg_number: 'CEO044975',
+            town: 'Grabouw & Elgin',
+          },
+          {
+            reg_number: 'CAG579382',
+            town: 'George',
+          },
+          {
+            reg_number: 'CFP625000',
+            town: 'Velddrif & Laaiplek',
+          },
+        ];
         const result = await registration.getNumbersAndTowns();
         assert.deepStrictEqual(result, expected);
       });
@@ -94,7 +135,7 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CAW579382');
         await registration.insertNumber('CFP625000');
         const expected = [];
-        const result = await registration.filterByTowns('Cape Town,George');
+        const result = await registration.filterByTowns(`'Cape Town','George'`);
         assert.deepStrictEqual(result, expected);
       });
   it('should check whether or not a registration number has been captured.',
@@ -103,7 +144,7 @@ describe('The Registration Numbers app', () => {
       });
   it('should return the matching town for a reg number without capturing it.',
       async () => {
-        assert.strictEqual(await registration.getThisTown('CCC506343'), '');
+        assert.strictEqual(await registration.getThisTown('CCC506343').town, 'Riversdale & Stilbaai');
       });
   it('should delete all registration numbers.',
       async () => {
