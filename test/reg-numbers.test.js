@@ -146,11 +146,13 @@ describe('The Registration Numbers app', () => {
       });
   it('should check whether or not a registration number has been captured.',
       async () => {
-        assert.strictEqual(await registration.hasNotBeenCaptured('CFP349623'), true);
+        const result = await registration.hasNotBeenCaptured('CFP349623');
+        assert.strictEqual(result, true);
       });
   it('should return the matching town for a reg number without capturing it.',
       async () => {
-        assert.strictEqual(await registration.getThisTown('CCC506343'), 'Riversdale & Stilbaai');
+        const result = await registration.getThisTown('CCC506343');
+        assert.strictEqual(result, 'Riversdale & Stilbaai');
       });
   it('should delete all registration numbers.',
       async () => {
