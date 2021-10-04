@@ -4,6 +4,7 @@ export default function registrationRoutes(registrationService) {
   const errorMessages = {
     '23505': 'Registration number already captured',
     '23514': 'Invalid registration number',
+    '22001': 'Invalid registration number',
     '23503': 'Invalid area code',
     '23502': 'Please enter a registration number',
   };

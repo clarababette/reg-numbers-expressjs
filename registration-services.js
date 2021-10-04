@@ -3,7 +3,7 @@
 export default function registrationService(pool) {
   function formatNumber(number) {
     if (number) {
-      return number.toUpperCase().replace(' ', '').replace('-', '');
+      return number.toUpperCase().replace(/\s/g, '').replace(/-/g, '');
     }
   }
 
