@@ -9,7 +9,10 @@ services:
   - postgresql
 
 addons:
-  postgresql: "13.3"
+  postgresql: 13
+  apt:
+    packages:
+      - postgresql-13
 
 before_script:
   - psql -c 'create database  registration_tests;' -U postgres
