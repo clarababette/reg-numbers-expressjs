@@ -1,4 +1,5 @@
 /* eslint-disable require-jsdoc */
+// This comment is for a test
 
 export default function registrationRoutes(registrationService) {
   const errorMessages = {
