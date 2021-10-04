@@ -5,7 +5,8 @@ create table towns(
 
 create table registration_numbers(
   reg_number varchar(9) UNIQUE NOT NULL PRIMARY KEY CHECK (reg_number ~ '^C[A-Z]{1,2}[0-9]{6}'),
-  code varchar(3) GENERATED ALWAYS AS (substring(reg_number from '^C[A-Z]{1,2}')) STORED REFERENCES towns(code)
+  code varchar(3) GENERATED ALWAYS AS (substring(reg_number from '^C[A-Z]{1,2}')) STORED 
+  REFERENCES towns(code)
 );
 
 INSERT INTO towns (code,town) VALUES ('CA', 'Cape Town');
