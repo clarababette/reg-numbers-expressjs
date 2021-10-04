@@ -77,8 +77,7 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CEO044975');
         await registration.insertNumber('CAG579382');
         await registration.insertNumber('CFP625000');
-        const expected = [{reg_number: 'CA349535', town: 'Cape Town'},
-          {reg_number: 'CJ328895', town: 'Paarl'}];
+        const expected = [][]
         const result = await registration.getNumbersAndTowns();
         assert.deepStrictEqual(result, expected);
       });
@@ -94,8 +93,7 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CEO044975');
         await registration.insertNumber('CAW579382');
         await registration.insertNumber('CFP625000');
-        const expected = [{reg_number: 'CA349535', town: 'Cape Town'},
-          {reg_number: 'CJ328895', town: 'Paarl'}];
+        const expected = [];
         const result = await registration.filterByTowns('Cape Town,George');
         assert.deepStrictEqual(result, expected);
       });
