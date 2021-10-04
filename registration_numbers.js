@@ -73,7 +73,7 @@ export default function registrationRoutes(registrationService) {
     } else {
       res.render('valid_reg_num', {
         regNum: `${getPrefix(input)} ${getDigits(input)}`,
-        town: town.town,
+        town: town,
         new: await registrationService.hasNotBeenCaptured(input),
       });
     }

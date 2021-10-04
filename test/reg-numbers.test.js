@@ -134,7 +134,13 @@ describe('The Registration Numbers app', () => {
         await registration.insertNumber('CEO044975');
         await registration.insertNumber('CAW579382');
         await registration.insertNumber('CFP625000');
-        const expected = [];
+        const expected = [{
+          reg_number: 'CA265279',
+        },
+        {
+          reg_number: 'CAW579382',
+        },
+        ];
         const result = await registration.filterByTowns(`'Cape Town','George'`);
         assert.deepStrictEqual(result, expected);
       });
@@ -144,7 +150,7 @@ describe('The Registration Numbers app', () => {
       });
   it('should return the matching town for a reg number without capturing it.',
       async () => {
-        assert.strictEqual(await registration.getThisTown('CCC506343').town, 'Riversdale & Stilbaai');
+        assert.strictEqual(await registration.getThisTown('CCC506343'), 'Riversdale & Stilbaai');
       });
   it('should delete all registration numbers.',
       async () => {
