@@ -10,7 +10,7 @@ import registrationRoutes from './registration_numbers.js';
 
 const Pool = pg.Pool;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:5432/registration_database';
+const connectionString = process.env.DATABASE_URL || 'postgresql://localhost:5433/registration_database';
 
 const pool = (() => {
   if (process.env.NODE_ENV !== 'production') {
